@@ -1,0 +1,143 @@
+ /**
+ *
+ * 嗨.我的名字叫yezannnnn~~~~. 我是前端coder,热爱装X.
+ * 欢迎你来看我的博客.
+ *
+ * 就这?就这?就这?看什么东西?
+ *
+ * 别急,现在给你整个博客.
+ */
+
+/**
+ * 那我们开始吧!为了让你的肉眼能看见我干嘛，先写个动画时间1s.
+ */
+
+* {
+  -webkit-transition: all 1s;
+}
+
+/**
+ * 好像什么东没发生,当然啦，我啥都还没写.
+ *
+ * 白板页面黑色文字,单调~~~.
+ * 先调背景吧.
+ */
+
+html {
+  background: rgb(63, 82, 99);
+  font-size: 12px;
+}
+
+/***
+ * 稍等...
+ */
+
+pre, a {
+  color: white;
+}
+
+/**
+ * 这样就舒服不少了吧.
+ *
+ * 那就做一个编辑器里面用来显示我的css代码.
+ *
+ * 那我开始动手了，调一调.
+ */
+
+pre:not(:empty) {
+  overflow: auto;
+  background: rgb(48, 48, 48);
+  max-height: 45vh;
+  width: 49%;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  font-family: monospace;
+  padding: 1vh 0.5vw;
+  box-shadow: -4px 4px 2px 0 rgba(0,0,0,0.3);
+  white-space: pre-wrap;
+  outline: 0;
+  margin: 1vh 0.5vw;
+}
+
+/**
+ * 好了, 是不是有内味了, 哦哦哦对博客忘了.
+ * 接着弄他.
+ */
+
+#mainBoxs {
+  -webkit-transform: translateX(95%);
+  position: absolute;
+}
+
+/**
+ * 再把我的样式调一下, 和sublime差不多.
+ */
+
+.comment       { color: #857F6B; font-style: italic; }
+.selector      { color: #E69F0F; }
+.selector .key { color: #64D5EA; }
+.key           { color: #64D5EA; }
+.value         { color: #BE84F2; }
+.value.px      { color: #F92772; }
+
+/**
+ * 嗯, 好了.
+ * 调一下位置, 高大上一点.
+ */
+
+body {
+  -webkit-perspective: 1000px;
+}
+
+#mainBoxs {
+  -webkit-transform: translate(95%,0.5%);
+  width: 49.5%;
+  -webkit-transform-origin: right;
+  max-height: 93.1vh;
+}
+
+/**
+ * 接着, 放个博客显示的位置.
+ * 我先简单写一点html的代码,
+ * 哦, 对了, 我项目用的Vue.
+ */
+
+pre:not(#mainBoxs) {
+  height:93.1vh;
+  max-height: 93.1vh;
+  padding: 0;
+}
+  
+/**
+ * 这里pre标签不好渲染html,
+ * 我重新渲染个div里渲染博客内容,
+ * 样式和pre一样哦.
+ */
+
+#templateBoxs {
+  webkit-transform: translate(-10px, 8px);
+  max-height: 93.1vh;
+  height:93.1vh;
+  background: #fff;
+  color: #303030;
+  overflow: auto;
+  width: 49%;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  font-family: monospace;
+  box-shadow: -4px 4px 2px 0 rgba(0,0,0,0.3);
+  white-space: pre-wrap;
+  outline: 0;
+  margin: 1vh 0.5vw;
+}
+
+/**
+ * 下面就是博客的样式编写,
+ * 内容挺多的, 我就加速喽 🚀.
+ */
+
+ 
+
+
+
+

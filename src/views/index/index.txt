@@ -1,0 +1,94 @@
+<template>
+    <div class="blogBox">
+        <!-- <h1>asdasdasdasd</h1> -->
+        <div id='mainBoxs'></div>
+    </div>
+</template>
+<script>
+// import HelloWorld from './components/HelloWorld.vue'
+// import { VueTypedJs } from 'vue-typed-js'
+// 读取字符串 raw-loader
+import styleCss from 'raw-loader!@/styles/main0.txt'
+import indexTxt from 'raw-loader!@/views/index/index.txt'
+export default {
+    name: 'index',
+    components: {
+        // VueTypedJs
+    },
+
+    data() {
+        return {
+            myString: '// 你好，我的名字叫yezannnnn~~~~~! 很高兴认识你，你看看',
+            styleBox: document.getElementById('mainBoxs'),
+            speed: 16,
+            styleMaps: null,
+        }
+    },
+    created() {
+        var self = this
+
+        console.log(styleCss)
+        console.log(indexTxt)
+
+        setTimeout(function() {
+            self.codeInto(0, styleCss, self.speed, 1, true)
+        }, 1000)
+
+    },
+    mounted() {},
+    methods: {
+        codeInto(index, str, speed, charSpeed, mirrorToStyle) {
+            var styleBox = document.getElementById('mainBoxs')
+            // let endOfSentence = /[\.\?\!]\s$/;
+            // let comma = /\D[\,]\s$/;
+            // let endOfBlock = /[^\/]\n\n$/;
+
+            var self = this
+            let char = str.slice(index, index + charSpeed)
+
+            if (mirrorToStyle) {
+                self.codeChar(styleBox,char);
+            } else {
+                self.codeSimpleChar(styleBox,char);
+            }
+            index += charSpeed;
+            if (index < str.length) {
+                let thisInterval = speed
+                // do {
+                //      console.log('11111')
+                // } while (self.paused);
+                // let slices = str.slice(index - 2, index + 1);
+                // if (comma.test(slices)) thisInterval = self.speed * 30;
+                // if (endOfBlock.test(slices)) thisInterval = self.speed * 50;
+                // if (endOfSentence.test(slices)) thisInterval = self.speed * 70;
+
+                setTimeout(function() {
+                    return self.codeInto(index, str, speed, charSpeed, mirrorToStyle);
+                }, thisInterval)
+
+            }
+        },
+        codeChar(el,str) {
+          el.innerHTML += str
+        },
+        codeSimpleChar(el,str) {
+          el.innerHTML += str
+        },
+
+    }
+}
+</script>
+<style lang='scss'>
+html {
+    background: rgb(63, 82, 99);
+}
+
+.blogBox {
+
+    height: 100%;
+
+    h1 {
+        font-size: 28px;
+    }
+}
+</style>

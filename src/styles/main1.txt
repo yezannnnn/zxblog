@@ -1,0 +1,114 @@
+
+ul,li{list-style: none; padding: 0;margin: 0;}
+
+/**
+ * 那博客容器也足够显示了.
+ * 这五官都有了,
+ * 那接下来就是开美颜的事情了.
+ */
+
+/**
+ * 因为考虑到全屏适配, 我会用rem做单位.
+ * 先装修博客的header 🔨🔨🔨.
+ */
+
+.blogCon .header{
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: column;
+	background: #fcf3a5;
+	padding: 1.5rem 0;
+}
+
+.blogCon .header .h_title{font-size: 2rem;font-weight: bold;}
+.blogCon .header .h_p_title a{color: #303030;border-bottom: 1px dotted #303030;cursor: pointer;}
+
+.blogCon .header .h_p_title{
+	font-size: 1rem;
+	color:#303030;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	align-items: center;
+}
+
+/**
+ * 接下来调一下 我们分享组的图标
+ */
+
+.blogCon .toollist ul{display: flex;justify-content: center;align-items: center;}
+.blogCon .toollist li{height: 2rem;width: 2rem;margin: 0 5px;cursor: pointer;}
+.blogCon .toollist li img{height: 100%;width: 100%;}
+
+/**
+ * header差不对好了,是不是有内味了🍲.
+ * 接下来就是 content 部分了.
+ */
+
+.blogCon .content {
+	padding: 2rem 6rem;
+	white-space:nowrap;
+	overflow:hidden;
+}
+
+/**
+ * 🍲.
+ * 列表.
+ */
+
+.blogCon .content .c_title {text-align: center;}
+.blogCon .content .c_con li{
+	display: flex;
+	flex-flow: column;
+	margin: 2.5rem 0;
+}
+.blogCon .content .c_con li .text{
+	display: flex;
+	align-items: center;
+	color: #969696;
+	transition: all 0s !important;
+	font-size: 1rem;
+	cursor: pointer;
+}
+/**
+ * 🍲.
+ * 列表的hover效果也要有.
+ */
+
+.blogCon .content .c_con li .text h1{}
+.blogCon .content .c_con li .text:hover{
+	color: #303030;
+	font-size: 1rem;
+}
+.blogCon .content .c_con li .text img{height: 2rem;width: 2rem;margin: 0 5px}
+.blogCon .content .c_con li .date{margin-left:2rem;font-family: raleway,sans-serif;font-weight: 100;color: #545454}
+
+/**
+ * content看起来还不错 大气简约.
+ * 最后footer也一鼓作气吧🚀.
+ */
+
+.blogCon .footer {
+	padding: 2rem 6rem;
+	padding-bottom: 4rem;
+	font-size: 0.8rem;
+	white-space:nowrap;
+	overflow:hidden;
+	display: flex;
+	justify-content: center;
+	color: #969696;
+	
+}
+.blogCon .footer a {color: #303030;}
+
+/**
+ * 嗯, 差不多也完成了.
+ * 那再见咯, 看看我的博客有什么文章更新吧.
+ * 不知不觉已经夜深了, 搞点夜宵778, 👋.
+ */
+
+
