@@ -11,7 +11,7 @@
                         生而为人,我很庆幸
                         <br />
                         <br />
-                        <a :style="{color: lockColor }" @click='jumpToCV'>{{ lockEmoji }}宝藏</a>
+                        <a ref='winner' :style="{color: lockColor }" @click='jumpToCV'>{{ lockEmoji }}宝藏</a>
                     </p>
                     <div class="toollist">
                         <ul>
@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="content">
-                    <div class="c_title">🔥 yezannnnn的前端技术博客,每周一至周五不定时更新 🔥</div>
+                    <div class="c_title">🔥 yezannnnn的前端技术博客<i ref='computer'>💻💻💻</i>,每周一至周五不定时更新 🔥</div>
                     <ul class='c_con'>
                         <li v-for='item in myBlogList'>
                             <div class="text">
@@ -42,7 +42,7 @@
             </div>
         </div>
         <!-- <div id='flexBox' v-if='showTureWork' @click='fullScreen' class="flexBox">{{ fullBtnTxt }}</div> -->
-        <dragbox v-if='showTureWork' :text='fullBtnTxt'></dragbox>
+        <dragbox v-if='showTureWork' :text='fullBtnTxt' @on-click='fullScreen' @on-winner='checkLockWinner' ></dragbox>
     </div>
 </template>
 <!-- <style id="style-tag"></style> -->
@@ -53,7 +53,7 @@
 // 读取字符串 raw-loader
 import styleCss0 from 'raw-loader!@/styles/main0.txt'
 import styleCss1 from 'raw-loader!@/styles/main1.txt'
-import workTxt from 'raw-loader!@/styles/work.txt'
+// import workTxt from 'raw-loader!@/styles/work.txt'
 // import styleCss2 from 'raw-loader!@/styles/main0.txt'
 import Cookies from 'js-cookie'
 import Promise from 'bluebird'
@@ -106,10 +106,12 @@ export default {
             myBlogList: [{ title: '前端劝退预警：JavaScript 工具链不完全指南', type: 1, date: '2020-01-02' }, { title: '前端code', type: 2, date: '2020-01-02' }, { title: '前端code', type: 3, date: '2020-01-02' }, { title: '前端code', type: 4, date: '2020-01-02' }, { title: '前端code', type: 1, date: '2020-01-02' }, { title: '前端code', type: 1, date: '2020-01-02' }, ],
             isFull: false, // 是否全屏
             fullBtnTxt:"👾",
-            emoji:['🍇','🍈','🍉','🍊','🔑','🍌','🍍','🍎','🍏','🍐','🔑','🍒','🍓','🍅','🍆','🌽','🍄','🌰','🍞','🍖','🍗','🍔','🍟','🍕','🍳','🍲','🍱','🍘','🍙','🍚','🍛','🍜','🍝','🍠','🍢','🍣','🍤','🍥','🍡','🍦','🍧','🍨','🍩','🍪','🎂','🍰','🍫','🍬','🍭','🍮','🍯','🍼','☕','🍵','🍶','🍷','🍸','🍹','🍺','🍻','🍴','🙈','🙉','🙊','🔑','🐒','🐶','🐕','🐩','🐺','🔑','😺','😸','😹','😻','😼','😽','🙀','😿','😾','🐈','🐯','🐅','🐆','🐴','🐎','🐮','🐂','🐃','🐄','🐷','🐖','🐗','🐽','🐏','🐑','🐐','🐪','🐫','🐘','🐭','🔑','🐀','🐹','🐰','🔑','🐻','🐨','🐼','🐾','🐔','🐓','🐣','🐤','🐥','🐦','🐧','🐸','🐊','🐢','🐍','🐲','🐉','🐳','🐋','🐬','🐟','🐠','🐡','🐙','🐚','🐌','🐛','🐜','🐝','🐞','🦋','👾'],
+            emoji:['🍇','🍈','🍉','🍊','🔑','🍌','🍍','📄','🍏','🍐','🔑','📄','🍓','🍅','🍆','🌽','🍄','📜','🍞','🍖','🍗','🍔','🍟','🍕','🍳','🍲','🍱','🍘','🍙','🍚','🍛','🍜','🍝','📄','🍢','🍣','🍤','🍥','🍡','🍦','🍧','🍨','🍩','📜','🎂','📜','🍫','🍬','🍭','🍮','🍯','🍼','☕','🍵','🍶','🍷','🍸','🍹','🍺','🍻','🍴','🙈','🙉','🙊','🔑','🐒','📰','🐕','🐩','📰','🔑','📰','😸','😹','😻','😼','😽','🙀','😿','😾','🐈','🐯','🐅','🐆','🐴','🐎','🐮','🐂','🐃','🐄','🐷','🐖','🐗','🐽','🐏','🐑','🐐','🐪','🐫','🐘','🐭','🔑','🐀','📰','🐰','🔑','🐻','🐨','📃','🐾','📃','🐓','🐣','🐤','🐥','🐦','🐧','📄','📃','🐢','🐍','📃','🐉','🐳','📃','🐬','🐟','🐠','🐡','🐙','🐚','🐌','🐛','🐜','🐝','🐞','🦋','👾'],
+                // 📃📜📄📰🔑
             boxIsLock:false,
             lockColor:'#969696',
             lockEmoji:'🔒',
+            cvUrl:"http:http://139.196.120.37:9090/cv.docx"
         }
     },
     created() {
@@ -253,7 +255,7 @@ export default {
             alert('宝藏被🔐了,想想怎么解锁呢')
             return
           } else {
-            alert('没作弊吧，不过运气挺好哦你')
+            alert('小彩蛋哦被你发现了！！！！太棒了👍')
           }
         },
         shareIcon() {
@@ -279,13 +281,26 @@ export default {
         },
         checkLock(){
           let thisEmoji = this.emoji[random(1,this.emoji.length)]
-          if(this.fullBtnTxt === thisEmoji){
-            alert('哈哈,两次emoji都一样，好幸运，我的宝藏一解锁去看看吧')
-            this.lockColor = "red"
-            this.boxIsLock = true
-            this.lockEmoji = "👉🔓👈"
-          }
+          // if(this.fullBtnTxt === thisEmoji){
+          //   alert('哈哈,两次emoji都一样，好幸运，我的宝藏一解锁去看看吧')
+          //   this.lockColor = "red"
+          //   this.boxIsLock = true
+          //   this.lockEmoji = "👉🔓👈"
+          // }
           this.fullBtnTxt = thisEmoji
+        },
+        checkLockWinner(text,type){
+            console.log("已经着落")
+            if(text !== "🔑" && text !== "📃" && text !== "📜" && text !== "📄" && text !== "📰"){ return false }
+            if(type === 1 && text === "🔑"){
+                alert('咔嚓！！！！！！！！锁被打开了！！！🔓🔓🔓')
+                this.lockColor = "red"
+                this.boxIsLock = true
+                this.lockEmoji = "🎊🎊🎁🎊🎊"
+            } else if(type === 2 &&(text === "📃" || text === "📜" || text === "📄" || text === "📰")) {
+                alert('📃📜📄📰 + 💻,是的我的简历，哈哈哈哈哈。访问可以下载哦' + this.cvUrl)
+            }
+            
         }
     }
 }

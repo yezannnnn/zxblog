@@ -1,5 +1,5 @@
 
-ul,li{list-style: none; padding: 0;margin: 0;}
+ul,li,i{list-style: none; padding: 0;margin: 0;font-style:normal;}
 
 /**
  * 那博客容器也足够显示了.

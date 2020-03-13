@@ -1,5 +1,5 @@
 <template>
-    <div class="flexBox" id='moveDiv' @mousedown="down" @touchstart="down" @mousemove="move" @touchmove.prevent="move" @mouseup="end" @touchend="end" @click='handleClick'>
+    <div class="flexBox" ref='kongtiao' @mousedown="mouseDownHandleelse($event)" @mouseup="mouseUpHandleelse($event)" @click='handleClick'>
         {{ text }}
     </div>
 </template>
@@ -14,59 +14,69 @@ export default {
     },
     data() {
         return {
-            flags: false,
-            position: { x: 0, y: 0 },
-            nx: '',
-            ny: '',
-            dx: '',
-            dy: '',
-            xPum: '',
-            yPum: '',
+            touchFlag: false, //拖拽标识
+            moveDataelse: {
+                x: null,
+                y: null
+            }
         }
     },
     created() {},
-    method: {
-        down() {
-            let moveDiv = document.getElementById("moveDiv")
-            this.flags = true;
-            var touch;
-            if (event.touches) {
-                touch = event.touches[0];
-            } else {
-                touch = event;
-            }
-            this.position.x = touch.clientX;
-            this.position.y = touch.clientY;
-            this.dx = moveDiv.offsetLeft;
-            this.dy = moveDiv.offsetTop;
+    methods: {
+        mouseDownHandleelse (event) {
+          this.touchFlag = false
+          this.moveDataelse.x = event.pageX - this.$refs.kongtiao.offsetLeft
+          this.moveDataelse.y = event.pageY - this.$refs.kongtiao.offsetTop
+          event.currentTarget.style.cursor = 'move'
+          window.onmousemove = this.mouseMoveHandleelse
         },
-        move() {
-            let moveDiv = document.getElementById("moveDiv")
-            if (this.flags) {
-                var touch;
-                if (event.touches) {
-                    touch = event.touches[0];
-                } else {
-                    touch = event;
-                }
-                this.nx = touch.clientX - this.position.x;
-                this.ny = touch.clientY - this.position.y;
-                this.xPum = this.dx + this.nx;
-                this.yPum = this.dy + this.ny;
-                moveDiv.style.left = this.xPum + "px";
-                moveDiv.style.top = this.yPum + "px";
-                //阻止页面的滑动默认事件；如果碰到滑动问题，1.2 请注意是否获取到 touchmove
-                document.addEventListener("touchmove", function() {
-                    event.preventDefault();
-                }, false);
-            }
+        mouseMoveHandleelse (event) {
+          // 触发解锁机制
+
+          let x_w = this.$parent.$refs.winner.offsetLeft
+          let y_w = this.$parent.$refs.winner.offsetTop
+
+          let x_c = this.$parent.$refs.computer.offsetLeft
+          let y_c = this.$parent.$refs.computer.offsetTop
+
+          this.touchFlag = true
+          let moveLeft = event.pageX - this.moveDataelse.x + 'px'
+          let moveTop = event.pageY - this.moveDataelse.y + 'px'
+          this.$refs.kongtiao.style.left = moveLeft
+          this.$refs.kongtiao.style.top = moveTop
+          // 拖拽到指定位置哦
+          if((Math.abs(event.pageX - this.moveDataelse.x - x_w ) <= 40) && (Math.abs(event.pageY - this.moveDataelse.y - y_w) <= 40)) {
+            this.$emit("on-winner", this.text, 1)
+            return false
+          }
+          //
+          console.log(Math.abs(event.pageX - this.moveDataelse.x - x_c))
+          console.log(Math.abs(event.pageY - this.moveDataelse.y - y_c))
+          if((Math.abs(event.pageX - this.moveDataelse.x - x_c ) <= 40) && (Math.abs(event.pageY - this.moveDataelse.y - y_c) <= 40)) {
+            this.$emit("on-winner", this.text, 2)
+            return false
+          } 
+
+
         },
-        //鼠标释放时候的函数
-        end() {
-            this.flags = false;
+        mouseUpHandleelse (event) {
+          var self = this
+          event.stopPropagation();
+          window.onmousemove = null
+          event.currentTarget.style.cursor = 'move'
+          console.log('鼠标松开了')
+          // 鼠标松开后 200 毫秒
+          setTimeout(function () {
+            self.touchFlag = false
+          },200)
+          
         },
         handleClick(){
+          if(this.touchFlag) {
+              return false
+          }
           this.$emit('on-click')
+          console.log('点击我了')
         }
     }
 }
@@ -75,9 +85,9 @@ export default {
 .flexBox {
     font-size: 40px;
     cursor: pointer;
-    position: absolute;
+    position: fixed;
     z-index: 10000;
-    right: 10%;
-    bottom: 5%;
+    top: 95%;
+    left: 90%;
 }
 </style>

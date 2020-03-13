@@ -1,39 +1,44 @@
 <template>
-    <div class="blogCon">
-    <div class="header">
-        <div class="h_title">Yezannnn's Web Blog</div>
-        <p class="h_p_title">
-            生而为人,我很庆幸
-            <br />
-            <br />
-            <a @click='jumpToCV'>🎁宝藏</a>
-        </p>
-        <div class="toollist">
-            <ul>
-                <li @click='shareIcon(1)'><img src="@/assets/social_google.png"></li>
-                <li @click='shareIcon(2)'><img src="@/assets/social_github.png"></li>
-                <li @click='shareIcon(3)'><img src="@/assets/social_wechat.png"></li>
-            </ul>
-        </div>
-    </div>
-    <div class="content">
-        <div class="c_title">🔥 yezannnnn的前端技术博客,每周一至周五不定时更新 🔥</div>
-        <ul class='c_con'>
-            <li v-for='item in myBlogList'>
-                <!-- <div :class="{ showJs : item.type === 1 , showVue : item.type === 2 ,showGo : item.type === 3 ,showPhp : item.type === 4}"></div> -->
-                <div class="text">
-                    <img v-if='item.type === 1' src="@/assets/js.png">
-                    <img v-if='item.type === 2' src="@/assets/logo.png">
-                    <img v-if='item.type === 3' src="@/assets/golang.png">
-                    <img v-if='item.type === 4' src="@/assets/PHP.png">
-                    <h1>{{ item.title }}</h1>
+    <div class="blogBox">
+        <!--  -->
+        <pre ref='mainBoxs' id='mainBoxs' v-html='fullTextObj.mainBoxs'></pre>
+        <pre ref='workBoxs' id='workBoxs' v-html='fullTextObj.workBoxs' v-if='!showTureWork'></pre>
+        <div ref='t_workBoxs' id='templateBoxs' v-else>
+            <div class="blogCon">
+                <div class="header">
+                    <div class="h_title">Yezannnn's Web Blog</div>
+                    <p class="h_p_title">
+                        生而为人,我很庆幸
+                        <br />
+                        <br />
+                        <a ref='winner' :style="{color: lockColor }" @click='jumpToCV'>{{ lockEmoji }}宝藏</a>
+                    </p>
+                    <div class="toollist">
+                        <ul>
+                            <li @click='shareIcon(1)'><img src="@/assets/social_google.png"></li>
+                            <li @click='shareIcon(2)'><img src="@/assets/social_github.png"></li>
+                            <li @click='shareIcon(3)'><img src="@/assets/social_wechat.png"></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="date">{{ item.date }}</div>
-            </li>
-        </ul>
-    </div>
-    <div class='footer'>
-        <div>博客内容：yezannnnn@sina.com 设计与灵感来自 <a href="www.STRML.net">STRML.net</a></div>
-    </div>
-    </div>
+                <div class="content">
+                    <div class="c_title">🔥 yezannnnn的前端技术博客<i ref='computer'>💻💻💻</i>,每周一至周五不定时更新 🔥</div>
+                    <ul class='c_con'>
+                        <li v-for='item in myBlogList'>
+                            <div class="text">
+                                <img v-if='item.type === 1' src="@/assets/js.png">
+                                <img v-if='item.type === 2' src="@/assets/logo.png">
+                                <img v-if='item.type === 3' src="@/assets/golang.png">
+                                <img v-if='item.type === 4' src="@/assets/PHP.png">
+                                <h1>{{ item.title }}</h1>
+                            </div>
+                            <div class="date">{{ item.date }}</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class='footer'>
+                    <div>博客内容：yezannnnn@sina.com 设计与灵感来自 <a href="www.STRML.net">STRML.net</a></div>
+                </div>
+            </div>
+        </div>
 </template>
