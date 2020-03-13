@@ -4,46 +4,45 @@
         <pre ref='mainBoxs' id='mainBoxs' v-html='fullTextObj.mainBoxs'></pre>
         <pre ref='workBoxs' id='workBoxs' v-html='fullTextObj.workBoxs' v-if='!showTureWork'></pre>
         <div ref='t_workBoxs' id='templateBoxs' v-else>
-          <div class="blogCon">
-            <div class="header">
-              <div class="h_title">Yezannnn's Web Blog</div>
-              <p class="h_p_title">
-                生而为人,我很庆幸
-                <br/>
-                <br/>
-                <a @click='jumpToCV'>🎁宝藏</a>
-              </p>
-              <div class="toollist">
-                <ul>
-                  <li @click='shareIcon(1)'><img src="@/assets/social_google.png"></li>
-                  <li @click='shareIcon(2)'><img src="@/assets/social_github.png"></li>
-                  <li @click='shareIcon(3)'><img src="@/assets/social_wechat.png"></li>
-                </ul>
-              </div>
+            <div class="blogCon">
+                <div class="header">
+                    <div class="h_title">Yezannnn's Web Blog</div>
+                    <p class="h_p_title">
+                        生而为人,我很庆幸
+                        <br />
+                        <br />
+                        <a :style="{color: lockColor }" @click='jumpToCV'>{{ lockEmoji }}宝藏</a>
+                    </p>
+                    <div class="toollist">
+                        <ul>
+                            <li @click='shareIcon(1)'><img src="@/assets/social_google.png"></li>
+                            <li @click='shareIcon(2)'><img src="@/assets/social_github.png"></li>
+                            <li @click='shareIcon(3)'><img src="@/assets/social_wechat.png"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="c_title">🔥 yezannnnn的前端技术博客,每周一至周五不定时更新 🔥</div>
+                    <ul class='c_con'>
+                        <li v-for='item in myBlogList'>
+                            <div class="text">
+                                <img v-if='item.type === 1' src="@/assets/js.png">
+                                <img v-if='item.type === 2' src="@/assets/logo.png">
+                                <img v-if='item.type === 3' src="@/assets/golang.png">
+                                <img v-if='item.type === 4' src="@/assets/PHP.png">
+                                <h1>{{ item.title }}</h1>
+                            </div>
+                            <div class="date">{{ item.date }}</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class='footer'>
+                    <div>博客内容：yezannnnn@sina.com 设计与灵感来自 <a href="www.STRML.net">STRML.net</a></div>
+                </div>
             </div>
-            <div class="content">
-              <div class="c_title">🔥 yezannnnn的前端技术博客,每周一至周五不定时更新 🔥</div>
-              <ul class='c_con'>
-                <li v-for='item in myBlogList'>
-                  <!-- <div :class="{ showJs : item.type === 1 , showVue : item.type === 2 ,showGo : item.type === 3 ,showPhp : item.type === 4}"></div> -->
-                  <div class="text">
-                    <img v-if='item.type === 1' src="@/assets/js.png">
-                    <img v-if='item.type === 2' src="@/assets/logo.png">
-                    <img v-if='item.type === 3' src="@/assets/golang.png">
-                    <img v-if='item.type === 4' src="@/assets/PHP.png">
-                    <h1>{{ item.title }}</h1>
-                  </div>
-                  <div class="date">{{ item.date }}</div>
-                </li>
-              </ul>
-            </div>
-            <div class='footer'>
-              <div>博客内容：yezannnnn@sina.com 设计与灵感来自 <a href="www.STRML.net">STRML.net</a></div>
-            </div>
-          </div>
         </div>
-
-        <div v-if='showTureWork' class="flexBox">👾</div>
+        <!-- <div id='flexBox' v-if='showTureWork' @click='fullScreen' class="flexBox">{{ fullBtnTxt }}</div> -->
+        <dragbox v-if='showTureWork' :text='fullBtnTxt'></dragbox>
     </div>
 </template>
 <!-- <style id="style-tag"></style> -->
@@ -57,12 +56,14 @@ import styleCss1 from 'raw-loader!@/styles/main1.txt'
 import workTxt from 'raw-loader!@/styles/work.txt'
 // import styleCss2 from 'raw-loader!@/styles/main0.txt'
 import Cookies from 'js-cookie'
-import Promise from 'bluebird';
+import Promise from 'bluebird'
+import { random } from '@/util/util.js'
+import dragbox from '@/components/dragBox'
 // import indexTxt from 'raw-loader!@/views/index/index.txt'
 export default {
     name: 'index',
     components: {
-        // VueTypedJs
+      dragbox
     },
 
     data() {
@@ -102,7 +103,13 @@ export default {
             openComment: false,
             paused: false,
             // type 1 JS ,2Vue,3Golang,4PHP
-            myBlogList: [{ title: '前端劝退预警：JavaScript 工具链不完全指南',type:1,date:'2020-01-02' }, { title: '前端code',type:2,date:'2020-01-02' }, { title: '前端code',type:3,date:'2020-01-02' }, { title: '前端code',type:4,date:'2020-01-02' }, { title: '前端code',type:1 ,date:'2020-01-02'}, { title: '前端code',type:1 ,date:'2020-01-02'}, ],
+            myBlogList: [{ title: '前端劝退预警：JavaScript 工具链不完全指南', type: 1, date: '2020-01-02' }, { title: '前端code', type: 2, date: '2020-01-02' }, { title: '前端code', type: 3, date: '2020-01-02' }, { title: '前端code', type: 4, date: '2020-01-02' }, { title: '前端code', type: 1, date: '2020-01-02' }, { title: '前端code', type: 1, date: '2020-01-02' }, ],
+            isFull: false, // 是否全屏
+            fullBtnTxt:"👾",
+            emoji:['🍇','🍈','🍉','🍊','🔑','🍌','🍍','🍎','🍏','🍐','🔑','🍒','🍓','🍅','🍆','🌽','🍄','🌰','🍞','🍖','🍗','🍔','🍟','🍕','🍳','🍲','🍱','🍘','🍙','🍚','🍛','🍜','🍝','🍠','🍢','🍣','🍤','🍥','🍡','🍦','🍧','🍨','🍩','🍪','🎂','🍰','🍫','🍬','🍭','🍮','🍯','🍼','☕','🍵','🍶','🍷','🍸','🍹','🍺','🍻','🍴','🙈','🙉','🙊','🔑','🐒','🐶','🐕','🐩','🐺','🔑','😺','😸','😹','😻','😼','😽','🙀','😿','😾','🐈','🐯','🐅','🐆','🐴','🐎','🐮','🐂','🐃','🐄','🐷','🐖','🐗','🐽','🐏','🐑','🐐','🐪','🐫','🐘','🐭','🔑','🐀','🐹','🐰','🔑','🐻','🐨','🐼','🐾','🐔','🐓','🐣','🐤','🐥','🐦','🐧','🐸','🐊','🐢','🐍','🐲','🐉','🐳','🐋','🐬','🐟','🐠','🐡','🐙','🐚','🐌','🐛','🐜','🐝','🐞','🦋','👾'],
+            boxIsLock:false,
+            lockColor:'#969696',
+            lockEmoji:'🔒',
         }
     },
     created() {
@@ -111,7 +118,6 @@ export default {
         setTimeout(function() {
             self.getEls()
             self.startA()
-
         }, 1000)
 
     },
@@ -126,23 +132,23 @@ export default {
         async startA() {
             var self = this
 
-            await self.codeInto(self.mainBoxs, 0, styleCss0, self.speed, 1, true, self.styleBoxs)
-            await self.codeInto(self.workBoxs, 0, workTxt, self.speed - 12, 1, false, self.styleBoxs)
-            await self.codeInto(self.mainBoxs, 0, styleCss1, self.speed, 1, true, self.styleBoxs)
+            // await self.codeInto(self.mainBoxs, 0, styleCss0, self.speed, 1, true, self.styleBoxs)
+            // await self.codeInto(self.workBoxs, 0, workTxt, self.speed - 12, 1, false, self.styleBoxs)
+            // await self.codeInto(self.mainBoxs, 0, styleCss1, self.speed, 1, true, self.styleBoxs)
 
             // 调试样式用
             // console.log(styleCss0 + "\n" +styleCss1)
-            // var allstyle = styleCss0 + "\n" +styleCss1
-            // self.mainBoxs.innerHTML = allstyle
-            // self.styleBoxs.innerHTML = allstyle
-            // this.showTureWork = true
+            var allstyle = styleCss0 + "\n" +styleCss1
+            self.mainBoxs.innerHTML = allstyle
+            self.styleBoxs.innerHTML = allstyle
+            this.showTureWork = true
 
         },
         async codeInto(el, index, str, speed, charSpeed, mirrorToStyle, style) {
             var self = this
 
-            if(this.skipIt) {
-              throw new Error('SKIP IT');
+            if (this.skipIt) {
+                throw new Error('SKIP IT');
             }
 
             let char = str.slice(index, index + charSpeed)
@@ -242,26 +248,50 @@ export default {
                 console.log(this.isCome)
             }
         },
-        jumpToCV(){
+        jumpToCV() {
+          if(!this.boxIsLock) {
+            alert('宝藏被🔐了,想想怎么解锁呢')
+            return
+          } else {
+            alert('没作弊吧，不过运气挺好哦你')
+          }
+        },
+        shareIcon() {
 
         },
-        shareIcon(){
+        // 适配全屏 切换模式
+        fullScreen() {
+            let htmlDom = document.getElementsByTagName("html")[0]
+            let templateBoxs = document.getElementById("templateBoxs")
 
+            if (this.isFull) {
+              templateBoxs.style.width = "49%"
+              htmlDom.style.fontSize = "12px"
+              this.mainBoxs.style.display = "block"
+
+            } else {
+              templateBoxs.style.width = "99%"
+              htmlDom.style.fontSize = "18px"
+              this.mainBoxs.style.display = "none"
+            }
+            this.checkLock()
+            this.isFull = !this.isFull
+        },
+        checkLock(){
+          let thisEmoji = this.emoji[random(1,this.emoji.length)]
+          if(this.fullBtnTxt === thisEmoji){
+            alert('哈哈,两次emoji都一样，好幸运，我的宝藏一解锁去看看吧')
+            this.lockColor = "red"
+            this.boxIsLock = true
+            this.lockEmoji = "👉🔓👈"
+          }
+          this.fullBtnTxt = thisEmoji
         }
     }
 }
 </script>
 <style lang='scss' scoped>
-  .blogBox {
+.blogBox {
     position: relative;
-    .flexBox{
-
-      font-size: 40px;
-      cursor: pointer;
-      position:absolute;
-      z-index: 10000;
-      right: 10%;
-      bottom: 5%;
-    }
-  }
+}
 </style>
